@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import TodoList from '../TodoList';
 import { getTodos, createTodo } from '../../services/api';
 
@@ -33,7 +34,7 @@ describe('TodoList', () => {
     await waitFor(() => {
       expect(createTodo).toHaveBeenCalledWith({ title: 'New Todo', completed: false, subTasks: [] });
       expect(getTodos).toHaveBeenCalled();
-      expect(screen.getByText('New Todo')).toBeInTheDocument();
+      expect(screen.getByTestId('todo-title')).toHaveTextContent('New Todo');
     });
   });
 

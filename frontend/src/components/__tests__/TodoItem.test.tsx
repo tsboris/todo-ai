@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom';
 import TodoItem from '../TodoItem';
 import { updateTodo } from '../../services/api';
 
@@ -29,7 +30,7 @@ describe('TodoItem', () => {
 
   it('toggles todo completion', async () => {
     render(<TodoItem todo={mockTodo} onUpdate={mockOnUpdate} />);
-    const checkbox = screen.getByRole('checkbox', { name: '' });
+    const checkbox = screen.getByRole('checkbox', { name: /Test Todo/i });
 
     fireEvent.click(checkbox);
 
