@@ -1,19 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import TodoItem from './TodoItem';
-import { getTodos, createTodo } from '../services/api';
-
-interface Todo {
-  id: string;
-  title: string;
-  completed: boolean;
-  subTasks: SubTask[];
-}
-
-interface SubTask {
-  id: string;
-  title: string;
-  completed: boolean;
-}
+import { getTodos, createTodo, Todo, SubTask } from '../services/api';
 
 const TodoList: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
