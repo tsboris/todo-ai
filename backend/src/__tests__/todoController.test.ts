@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getTodos, createTodo } from '../controllers/todoController';
+import { getTodos, createTodo, updateTodo } from '../controllers/todoController';
 import Todo from '../models/Todo';
 
 jest.mock('../models/Todo');
@@ -60,6 +60,30 @@ describe('Todo Controller', () => {
 
       expect(mockResponse.status).toHaveBeenCalledWith(500);
       expect(mockResponse.json).toHaveBeenCalledWith({ message: 'Error creating todo' });
+    });
+  });
+
+  describe('updateTodo', () => {
+    it('should update an existing todo', async () => {
+      const mockTodo = { _id: '1', title: 'Updated Todo', completed: true, subTasks: [] };
+      mockRequest.params = { id: '1' };
+      mockRequest.body = { title: 'Updated Todo', completed: true, subTasks: [] };
+      (Todo.findByIdAndUpdate as jest.Mock).mockResolvedValue(mockTodo);
+
+      await updateTodo(mockRequest as Request, mockResponse as Response);
+
+      expect(mockResponse.json).toHaveBeenCalledWith(mockTodo);
+    });
+
+    it('should handle errors', async () => {
+      mockRequest.params = { id: '1' };
+      mockRequest.body = { title: 'Updated Todo', completed: true, subTasks: [] };
+      (Todo.findByIdAndUpdate as jest.Mock).mockRejectedValue(new Error('Database error'));
+
+      await updateTodo(mockRequest as Request, mockResponse as Response);
+
+      expect(mockResponse.status).toHaveBeenCalledWith(500);
+      expect(mockResponse.json).toHaveBeenCalledWith({ message: 'Error updating todo' });
     });
   });
 });

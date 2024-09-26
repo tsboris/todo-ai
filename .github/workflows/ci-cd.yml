@@ -38,6 +38,14 @@ jobs:
         cd backend
         npm test
 
+    - name: Upload coverage reports
+      uses: actions/upload-artifact@v2
+      with:
+        name: coverage-reports
+        path: |
+          frontend/coverage
+          backend/coverage
+
     - name: Send email on failure
       if: failure()
       uses: dawidd6/action-send-mail@v2

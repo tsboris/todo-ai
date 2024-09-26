@@ -18,7 +18,10 @@ describe('TodoList', () => {
   });
 
   it('creates a new todo', async () => {
-    (createTodo as jest.Mock).mockResolvedValue({ id: '1', title: 'New Todo', completed: false, subTasks: [] });
+    const newTodo = { _id: '1', title: 'New Todo', completed: false, subTasks: [] };
+    (createTodo as jest.Mock).mockResolvedValue(newTodo);
+    (getTodos as jest.Mock).mockResolvedValue([newTodo]);
+
     render(<TodoList />);
 
     const input = screen.getByPlaceholderText('New todo title');
@@ -30,6 +33,22 @@ describe('TodoList', () => {
     await waitFor(() => {
       expect(createTodo).toHaveBeenCalledWith({ title: 'New Todo', completed: false, subTasks: [] });
       expect(getTodos).toHaveBeenCalled();
+      expect(screen.getByText('New Todo')).toBeInTheDocument();
+    });
+  });
+
+  it('displays fetched todos', async () => {
+    const todos = [
+      { _id: '1', title: 'Todo 1', completed: false, subTasks: [] },
+      { _id: '2', title: 'Todo 2', completed: true, subTasks: [] },
+    ];
+    (getTodos as jest.Mock).mockResolvedValue(todos);
+
+    render(<TodoList />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Todo 1')).toBeInTheDocument();
+      expect(screen.getByText('Todo 2')).toBeInTheDocument();
     });
   });
 });
