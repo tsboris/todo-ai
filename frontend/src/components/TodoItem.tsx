@@ -37,6 +37,30 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onUpdate }) => {
     }
   };
 
+  const handleToggleSubTaskComplete = async (subTaskId: string) => {
+    try {
+      const updatedSubTasks = todo.subTasks.map(subTask => 
+        subTask.id === subTaskId ? { ...subTask, completed: !subTask.completed } : subTask
+      );
+      const updatedTodo = { ...todo, subTasks: updatedSubTasks };
+      await updateTodo(updatedTodo);
+      onUpdate();
+    } catch (error) {
+      console.error('Failed to update subtask:', error);
+    }
+  };
+
+  const handleDeleteSubTask = async (subTaskId: string) => {
+    try {
+      const updatedSubTasks = todo.subTasks.filter(subTask => subTask.id !== subTaskId);
+      const updatedTodo = { ...todo, subTasks: updatedSubTasks };
+      await updateTodo(updatedTodo);
+      onUpdate();
+    } catch (error) {
+      console.error('Failed to delete subtask:', error);
+    }
+  };
+
   return (
     <div>
       <input
@@ -58,7 +82,17 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onUpdate }) => {
       </div>
       <ul>
         {todo.subTasks.map((subTask) => (
-          <li key={subTask.id}>{subTask.title}</li>
+          <li key={subTask.id}>
+            <input
+              type="checkbox"
+              checked={subTask.completed}
+              onChange={() => handleToggleSubTaskComplete(subTask.id)}
+            />
+            <span style={{ textDecoration: subTask.completed ? 'line-through' : 'none' }}>
+              {subTask.title}
+            </span>
+            <button onClick={() => handleDeleteSubTask(subTask.id)}>Delete</button>
+          </li>
         ))}
       </ul>
     </div>
