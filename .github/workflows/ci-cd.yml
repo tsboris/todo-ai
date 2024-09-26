@@ -21,7 +21,7 @@ jobs:
     - name: Install dependencies (Frontend)
       run: |
         cd frontend
-        npm ci
+        npm install
         npm install --save-dev jest @testing-library/react @testing-library/jest-dom @types/jest
 
     - name: Run frontend tests
@@ -32,7 +32,7 @@ jobs:
     - name: Install dependencies (Backend)
       run: |
         cd backend
-        npm ci
+        npm install
         npm install --save-dev jest ts-jest @types/jest supertest @types/supertest
 
     - name: Run backend tests
