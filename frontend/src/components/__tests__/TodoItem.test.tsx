@@ -23,7 +23,7 @@ describe('TodoItem', () => {
 
   it('renders the todo item', () => {
     render(<TodoItem todo={mockTodo} onUpdate={mockOnUpdate} />);
-    expect(screen.getByText('Test Todo')).toBeInTheDocument();
+    expect(screen.getByTestId('todo-title')).toHaveTextContent('Test Todo');
     expect(screen.getByText('Subtask 1')).toBeInTheDocument();
   });
 

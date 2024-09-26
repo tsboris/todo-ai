@@ -63,14 +63,16 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onUpdate }) => {
 
   return (
     <div>
-      <input
-        type="checkbox"
-        checked={todo.completed}
-        onChange={handleToggleComplete}
-      />
-      <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>
-        {todo.title} (ID: {todo._id})
-      </span>
+      <div>
+        <input
+          type="checkbox"
+          checked={todo.completed}
+          onChange={handleToggleComplete}
+        />
+        <span data-testid="todo-title" style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>
+          {todo.title}
+        </span>
+      </div>
       <div>
         <input
           type="text"
