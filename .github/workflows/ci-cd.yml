@@ -1,0 +1,54 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install dependencies (Frontend)
+      run: |
+        cd frontend
+        npm ci
+        npm install --save-dev jest @testing-library/react @testing-library/jest-dom @types/jest
+
+    - name: Run frontend tests
+      run: |
+        cd frontend
+        npm test
+
+    - name: Install dependencies (Backend)
+      run: |
+        cd backend
+        npm ci
+        npm install --save-dev jest ts-jest @types/jest supertest @types/supertest
+
+    - name: Run backend tests
+      run: |
+        cd backend
+        npm test
+
+    - name: Send email on failure
+      if: failure()
+      uses: dawidd6/action-send-mail@v2
+      with:
+        server_address: smtp.gmail.com
+        server_port: 465
+        username: ${{secrets.EMAIL_USER}}
+        password: ${{secrets.EMAIL_PASS}}
+        subject: CI/CD Pipeline Failed
+        body: The CI/CD pipeline for Todo-AI has failed. Please check the GitHub Actions log for more details.
+        to: ${{github.event.pusher.email}}
+        from: GitHub Actions
