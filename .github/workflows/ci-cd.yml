@@ -32,7 +32,6 @@ jobs:
       run: |
         cd backend
         npm ci
-        npm install --save-dev jest ts-jest @types/jest supertest @types/supertest
 
     - name: Run backend tests
       run: |
