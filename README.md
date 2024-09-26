@@ -24,32 +24,32 @@ This project is part of the ACE (Advanced Coding Experience) initiative, aimed a
 
 ## Getting Started
 
+### Running with Docker (Recommended for quick setup)
+
+To run the application locally without installing dependencies, you can use Docker. Make sure you have Docker and Docker Compose installed on your machine.
+
 1. Clone the repository:
    ```
    git clone https://github.com/your-username/todo-ai.git
    cd todo-ai
    ```
 
-2. Install dependencies:
+2. Copy the example environment file and adjust if needed:
    ```
-   cd frontend && npm install
-   cd ../backend && npm install
-   ```
-
-3. Set up environment variables:
-   - Create a `.env` file in the `backend` directory
-   - Add necessary environment variables (database URL, API keys, etc.)
-
-4. Start the development servers:
-   ```
-   # In the frontend directory
-   npm start
-
-   # In the backend directory
-   npm run dev
+   cp .env.example .env
    ```
 
-5. Open your browser and navigate to `http://localhost:3000`
+3. Build and run the containers:
+   ```
+   docker-compose up --build
+   ```
+
+4. Open your browser and navigate to `http://localhost:3000`
+
+To stop the application, press `Ctrl+C` in the terminal and run:
+```
+docker-compose down
+```
 
 ## Project Structure
 
