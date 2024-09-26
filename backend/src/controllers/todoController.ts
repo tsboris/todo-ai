@@ -25,7 +25,7 @@ export const updateTodo = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { title, completed, subTasks } = req.body;
-    console.log('Updating todo:', id);
+    console.log('Updating todo with ID:', id);
     console.log('Update data:', { title, completed, subTasks });
     const updatedTodo = await Todo.findByIdAndUpdate(
       id,
@@ -33,7 +33,7 @@ export const updateTodo = async (req: Request, res: Response) => {
       { new: true }
     );
     if (!updatedTodo) {
-      console.log('Todo not found:', id);
+      console.log('Todo not found with ID:', id);
       return res.status(404).json({ message: 'Todo not found' });
     }
     console.log('Updated todo:', updatedTodo);

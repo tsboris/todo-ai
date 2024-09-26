@@ -27,7 +27,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onUpdate }) => {
         onChange={handleToggleComplete}
       />
       <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>
-        {todo.title}
+        {todo.title} (ID: {todo._id})
       </span>
     </div>
   );

@@ -1,7 +1,7 @@
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5050/api';
 
 export interface Todo {
-  id: string;
+  _id: string;
   title: string;
   completed: boolean;
   subTasks: SubTask[];
@@ -21,7 +21,7 @@ export const getTodos = async (): Promise<Todo[]> => {
   return response.json();
 };
 
-export const createTodo = async (todo: Omit<Todo, 'id'>): Promise<Todo> => {
+export const createTodo = async (todo: Omit<Todo, '_id'>): Promise<Todo> => {
   const response = await fetch(`${API_BASE_URL}/todos`, {
     method: 'POST',
     headers: {
@@ -36,9 +36,9 @@ export const createTodo = async (todo: Omit<Todo, 'id'>): Promise<Todo> => {
 };
 
 export const updateTodo = async (todo: Todo): Promise<Todo> => {
-  console.log('Sending PUT request to:', `${API_BASE_URL}/todos/${todo.id}`);
+  console.log('Sending PUT request to:', `${API_BASE_URL}/todos/${todo._id}`);
   console.log('Request body:', JSON.stringify(todo));
-  const response = await fetch(`${API_BASE_URL}/todos/${todo.id}`, {
+  const response = await fetch(`${API_BASE_URL}/todos/${todo._id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',

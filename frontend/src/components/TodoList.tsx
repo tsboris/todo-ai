@@ -23,7 +23,12 @@ const TodoList: React.FC = () => {
   const handleCreateTodo = async () => {
     if (newTodoTitle.trim()) {
       try {
-        await createTodo({ title: newTodoTitle, completed: false, subTasks: [] });
+        const newTodo = await createTodo({
+          title: newTodoTitle,
+          completed: false,
+          subTasks: []
+        });
+        console.log('Created new todo:', newTodo);
         setNewTodoTitle('');
         await fetchTodos();
       } catch (error) {
@@ -43,7 +48,7 @@ const TodoList: React.FC = () => {
       />
       <button onClick={handleCreateTodo}>Add Todo</button>
       {todos.map((todo) => (
-        <TodoItem key={todo.id} todo={todo} onUpdate={fetchTodos} />
+        <TodoItem key={todo._id} todo={todo} onUpdate={fetchTodos} />
       ))}
     </div>
   );
