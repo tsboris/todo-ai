@@ -1,5 +1,5 @@
 import React from 'react';
-import { Todo, SubTask } from '../services/api';
+import { Todo, updateTodo } from '../services/api';
 
 interface TodoItemProps {
   todo: Todo;
@@ -7,10 +7,16 @@ interface TodoItemProps {
 }
 
 const TodoItem: React.FC<TodoItemProps> = ({ todo, onUpdate }) => {
-  const handleToggleComplete = () => {
-    // Implement toggle completion logic here
-    // For now, we'll just call onUpdate
-    onUpdate();
+  const handleToggleComplete = async () => {
+    try {
+      const updatedTodo = { ...todo, completed: !todo.completed };
+      console.log('Sending update request:', updatedTodo);
+      const result = await updateTodo(updatedTodo);
+      console.log('Update response:', result);
+      onUpdate();
+    } catch (error) {
+      console.error('Failed to update todo:', error);
+    }
   };
 
   return (
@@ -20,8 +26,9 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onUpdate }) => {
         checked={todo.completed}
         onChange={handleToggleComplete}
       />
-      <span>{todo.title}</span>
-      {/* Add more UI elements for subtasks if needed */}
+      <span style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}>
+        {todo.title}
+      </span>
     </div>
   );
 };

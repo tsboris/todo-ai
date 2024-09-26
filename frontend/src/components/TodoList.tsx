@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import TodoItem from './TodoItem';
-import { getTodos, createTodo, Todo, SubTask } from '../services/api';
+import { getTodos, createTodo, Todo } from '../services/api';
 
 const TodoList: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -11,15 +11,24 @@ const TodoList: React.FC = () => {
   }, []);
 
   const fetchTodos = async () => {
-    const fetchedTodos = await getTodos();
-    setTodos(fetchedTodos);
+    try {
+      const fetchedTodos = await getTodos();
+      console.log('Fetched todos:', fetchedTodos);
+      setTodos(fetchedTodos);
+    } catch (error) {
+      console.error('Failed to fetch todos:', error);
+    }
   };
 
   const handleCreateTodo = async () => {
     if (newTodoTitle.trim()) {
-      await createTodo({ title: newTodoTitle, completed: false, subTasks: [] });
-      setNewTodoTitle('');
-      fetchTodos();
+      try {
+        await createTodo({ title: newTodoTitle, completed: false, subTasks: [] });
+        setNewTodoTitle('');
+        await fetchTodos();
+      } catch (error) {
+        console.error('Failed to create todo:', error);
+      }
     }
   };
 

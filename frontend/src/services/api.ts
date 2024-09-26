@@ -34,3 +34,22 @@ export const createTodo = async (todo: Omit<Todo, 'id'>): Promise<Todo> => {
   }
   return response.json();
 };
+
+export const updateTodo = async (todo: Todo): Promise<Todo> => {
+  console.log('Sending PUT request to:', `${API_BASE_URL}/todos/${todo.id}`);
+  console.log('Request body:', JSON.stringify(todo));
+  const response = await fetch(`${API_BASE_URL}/todos/${todo.id}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(todo),
+  });
+  if (!response.ok) {
+    console.error('Update failed:', response.status, response.statusText);
+    throw new Error('Failed to update todo');
+  }
+  const updatedTodo = await response.json();
+  console.log('Response:', updatedTodo);
+  return updatedTodo;
+};
